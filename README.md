@@ -1,1 +1,2 @@
-# Java implementation for CRUD operations using Hbase java API
+# HBase CRUD operations
+Java implementation for CRUD operations using Hbase java API
