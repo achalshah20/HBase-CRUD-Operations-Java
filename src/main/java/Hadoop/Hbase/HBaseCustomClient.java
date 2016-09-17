@@ -7,12 +7,10 @@ import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
-import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Delete;
-import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
@@ -20,7 +18,6 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
-
 
 /**
  * Hello world!
@@ -98,41 +95,39 @@ public class HBaseCustomClient {
 	}
 
 	public void deleteRecord(String tableName, String rowKey) {
-		
+
 		try {
 			Table table = connection.getTable(TableName.valueOf(tableName));
-			Delete d = new Delete(Bytes.toBytes(rowKey));			
-			table.delete(d);			
-			
+			Delete d = new Delete(Bytes.toBytes(rowKey));
+			table.delete(d);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
-	public void printTable(String tablename){
-		
+	public void printTable(String tablename) {
+
 		ResultScanner rsObj = null;
-		
+
 		try {
 			Table table = connection.getTable(TableName.valueOf(tablename));
-			
+
 			Scan s = new Scan();
 			rsObj = table.getScanner(s);
-			
-			for(Result result:rsObj){
-				
-				System.out.println(Bytes.toString(result.getRow()));
-					for(Cell c : result.rawCells()){
-						System.out.println("Family: " + Bytes.toString(CellUtil.cloneFamily(c)));
-						System.out.println("Qualifiers: " + Bytes.toString(CellUtil.cloneQualifier(c)));
-						System.out.println("Values: " + Bytes.toString(CellUtil.cloneValue(c)));
 
-					}
-										
-				
+			for (Result result : rsObj) {
+
+				System.out.println(Bytes.toString(result.getRow()));
+				for (Cell c : result.rawCells()) {
+					System.out.println("Family: " + Bytes.toString(CellUtil.cloneFamily(c)));
+					System.out.println("Qualifiers: " + Bytes.toString(CellUtil.cloneQualifier(c)));
+					System.out.println("Values: " + Bytes.toString(CellUtil.cloneValue(c)));
+
+				}
+
 			}
 			rsObj.close();
 
@@ -142,8 +137,6 @@ public class HBaseCustomClient {
 
 			e.printStackTrace();
 		}
-		
-		
-		
+
 	}
 }
